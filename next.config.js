@@ -16,7 +16,7 @@ const getWordPressDomain = () => {
 
 const wpDomain = getWordPressDomain();
 
-module.exports = {
+const nextConfig = {
 	images: {
 		remotePatterns: [
 			{
@@ -54,3 +54,5 @@ module.exports = {
 		],
 	},
 };
+
+module.exports = nextConfig;
