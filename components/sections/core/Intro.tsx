@@ -1,6 +1,6 @@
 import Section from "../../ui/Section";
 import Container from "../../ui/Container";
-import Logo from "../../ui/Icons/Logo";
+import { SiteLogo } from "../../../lib/SiteLogo";
 
 export default function Intro({
 	pageTitle,

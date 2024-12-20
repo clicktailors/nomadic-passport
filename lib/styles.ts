@@ -29,7 +29,7 @@ export const styles = {
 	image: "w-full h-full object-contain rounded-xl",
 	siteTitle: "font-bold tracking-widest leading-tight",
 	siteTitleGradient: "gradient-text",
-	gradientLength: 5,
+	gradientLength: 7,
 	hero: {
 		main: "hero-content relative mx-auto pt-24 flex flex-col gap-4 lg:flex-row items-center justify-between",
 		textArea: "lg:w-1/2 text-center lg:text-left mb-12 lg:mb-0",

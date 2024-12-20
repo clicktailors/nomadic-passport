@@ -7,7 +7,7 @@ import Container from "../../ui/Container";
 
 export default function Newsletter() {
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [isSubscribed, setIsSubscribed] = useState(false); // State to track subscription status
+	const [isSubscribed, setIsSubscribed] = useState(false);
 	const [titleMessage, setTitleMessage] = useState({
 		title: "Subscribe to Our Newsletter!",
 		body: "Sign up to our newsletter to get the latest news and updates.",
@@ -43,7 +43,7 @@ export default function Newsletter() {
 					body: "You will receive an email when we publish new content.",
 				});
 				setIsFading(false);
-			}, 500); // Adjust this timing to match your CSS transition duration
+			}, 500);
 		} catch (error) {
 			setSubmitError("Error subscribing. Please try again.");
 		} finally {
@@ -54,35 +54,50 @@ export default function Newsletter() {
 	return (
 		<Section>
 			<Container>
-				<div className="flex flex-col items-center justify-center gap-8 max-w-sm mx-auto">
+				<div className="flex flex-col items-center max-w-2xl mx-auto">
 					{/* Section title */}
-					<h2 className="mb-8 text-4xl md:text-6xl font-bold tracking-tighter leading-tight">
-						Newsletter
-					</h2>
-					{/* Animation */}
-					<div className="w-full flex flex-col items-center justify-center gap-8">
-						<Lottie
-							button={false}
-							src={newsletterAnimation}
-							loop={true}
-							autoplay={true}
-						/>
+					<div className="mx-auto max-w-2xl lg:text-center mb-8">
+						<h2 className="font-semibold leading-7 text-primary">
+							Stay Updated
+						</h2>
+						<p className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+							Join Our Newsletter
+						</p>
+						<p className="mt-4 text-lg leading-8 text-base-content/70">
+							Get the latest updates, news, and insights delivered directly to your inbox.
+						</p>
 					</div>
+
+					{/* Animation */}
+					<div className="w-full max-w-sm mb-12">
+						<div className="relative w-full" style={{ paddingBottom: "50%" }}>
+							<div className="absolute inset-0 flex items-center justify-center">
+								<Lottie
+									button={false}
+									src={newsletterAnimation}
+									loop={true}
+									autoplay={true}
+								/>
+							</div>
+						</div>
+					</div>
+
 					{/* Message */}
 					<div
-						className={`w-full flex flex-col text-center justify-center ${
+						className={`w-full text-center mb-6 transition-opacity duration-500 ${
 							isFading ? "opacity-0" : "opacity-100"
 						}`}
 					>
-						<h2 className={`text-2xl font-bold mb-4`}>
+						<h3 className="text-xl font-bold mb-2">
 							{titleMessage.title}
-						</h2>
-						<p className="text-sm text-gray-500">
+						</h3>
+						<p className="text-sm text-base-content/70">
 							{titleMessage.body}
 						</p>
 					</div>
+
 					{/* Form */}
-					<div className="w-full flex items-center">
+					<div className="w-full max-w-sm">
 						<Form
 							fields={fields}
 							onSubmit={onSubmit}

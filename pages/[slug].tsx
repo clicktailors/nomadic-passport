@@ -4,7 +4,7 @@ import Layout from "./layout";
 import { SITE_NAME } from "../lib/constants";
 import Container from "../components/ui/Container";
 import Section from "../components/ui/Section";
-import { createCMSProvider } from "../lib/cms/cms-factory";
+import { createCMSProvider, CMSType } from "../lib/cms/cms-factory";
 import { cmsConfig } from "../lib/config";
 
 interface PageProps {
@@ -60,20 +60,18 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-	const cms = createCMSProvider(cmsConfig.type);
-	const allPages = await cms.getAllPages();
-	const excludedSlugs = ["home"];
-
-	const paths =
-		allPages.edges
-			.map(({ node }: any) => node.slug)
-			.filter(
-				(slug: string) => !excludedSlugs.includes(slug.toLowerCase())
-			)
-			.map((slug: string) => `/${slug}`) || [];
+	const cms = createCMSProvider(process.env.CMS_TYPE as CMSType);
+	const allPages = await cms.getAllPostsWithSlug();
+	
+	// Update this to match the actual structure returned by your CMS
+	const paths = allPages.map((page: any) => ({
+		params: {
+			slug: page.slug,
+		},
+	}));
 
 	return {
 		paths,
-		fallback: "blocking",
+		fallback: 'blocking',
 	};
 };

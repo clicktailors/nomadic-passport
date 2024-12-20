@@ -1,16 +1,17 @@
 import { Icon } from "@iconify-icon/react";
-import { CursorArrowRaysIcon } from "@heroicons/react/24/solid";
+import { GlobeAltIcon } from "@heroicons/react/24/outline";
 
 export const SiteLogo = ({
 	className,
-	size,
+	size = "size-8",
 }: {
-	className: string;
-	size: string;
+	className?: string;
+	size?: string;
 }) => {
+	const sizeClass = size || "size-8";
 	return (
-		<div className={`flex items-center ${className}`}>
-			<CursorArrowRaysIcon className="size-8 text-primary mr-2" />
+		<div className={`flex items-center ${className || ""}`}>
+			<GlobeAltIcon className={`${sizeClass} text-primary`} />
 		</div>
 	);
 };

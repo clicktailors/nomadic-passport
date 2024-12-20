@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+	<style>
+		:root {
+			color-scheme: light dark;
+		}
+		rect {
+			fill: var(--base-100, #F6F4F5);
+		}
+		.icon-bg {
+			fill: var(--base-200, #818181);
+			opacity: 0.1;
+		}
+		.icon-fg {
+			fill: var(--base-content, #30313d);
+			opacity: 0.2;
+		}
+	</style>
+	<rect width="1200" height="630"/>
+	<path d="M600 315m-120 0a120 120 0 1 0 240 0a120 120 0 1 0 -240 0" class="icon-bg"/>
+	<path d="M600 255a60 60 0 0 1 60 60v120a60 60 0 0 1-60 60 60 60 0 0 1-60-60v-120a60 60 0 0 1 60-60z" class="icon-fg"/>
+	<path d="M600 255a60 60 0 1 1 0-120 60 60 0 0 1 0 120z" class="icon-fg"/>
+</svg> 

@@ -3,15 +3,33 @@ import Container from "../ui/Container";
 import Section from "../ui/Section";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 
-export default function BlogCarousel({ posts }: { posts: any[] }) {
+type SpacingType = "none" | "sm" | "md" | "lg" | "xl";
+
+export default function BlogCarousel({ 
+	posts, 
+	spacing = "lg" 
+}: { 
+	posts: any[]; 
+	spacing?: SpacingType;
+}) {
 	return (
-		<Section>
+		<Section spacing={spacing}>
 			<Container>
 				<div className="relative">
-					<h2 className="mb-8 text-4xl md:text-6xl font-bold tracking-tighter leading-tight">
-						Latest Posts
-					</h2>
+					{/* Section header */}
+					<div className="mx-auto max-w-2xl lg:text-center mb-8">
+						<h2 className="font-semibold leading-7 text-primary">
+							From Our Blog
+						</h2>
+						<p className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+							Latest Posts
+						</p>
+						<p className="mt-4 text-lg leading-8 text-base-content/70">
+							Stay up to date with our latest news, updates, and insights.
+						</p>
+					</div>
 
+					{/* Carousel */}
 					<div className="carousel carousel-center w-full gap-4 md:gap-8 py-4 overflow-x-auto">
 						{posts.map(({ node }) => (
 							<div
@@ -30,6 +48,7 @@ export default function BlogCarousel({ posts }: { posts: any[] }) {
 						))}
 					</div>
 
+					{/* Navigation buttons */}
 					<div className="absolute right-0 top-0 space-x-1">
 						<button
 							onClick={() => {

@@ -13,7 +13,7 @@ import Layout from "../../layout";
 import PostTitle from "../../../components/blog/PostTitle";
 import Tags from "../../../components/blog/Tags";
 import { SITE_NAME } from "../../../lib/constants";
-import { createCMSProvider } from "../../../lib/cms/cms-factory";
+import { createCMSProvider, CMSType } from "../../../lib/cms/cms-factory";
 import { cmsConfig } from "../../../lib/config";
 
 interface PostType {
@@ -35,7 +35,7 @@ interface PostType {
 			};
 		};
 	};
-	categories: {
+	categories?: {
 		edges: Array<{
 			node: {
 				name: string;
@@ -43,7 +43,7 @@ interface PostType {
 		}>;
 	};
 	content: string;
-	tags: {
+	tags?: {
 		edges: Array<{
 			node: {
 				name: string;
@@ -62,6 +62,18 @@ interface Props {
 	post: PostType;
 	posts: PostsType;
 	preview?: boolean;
+}
+
+interface NeonPost {
+	title: string;
+	slug: string;
+	featured_image?: string;
+	date: string;
+	author?: string;
+	excerpt?: string;
+	content: string;
+	tags?: string[];
+	categories?: string[];
 }
 
 export default function Post({ post, posts, preview = false }: Props) {
@@ -99,7 +111,7 @@ export default function Post({ post, posts, preview = false }: Props) {
 							/>
 							<PostBody content={post.content} />
 							<footer>
-								{post.tags.edges.length > 0 && (
+								{post.tags?.edges && post.tags.edges.length > 0 && (
 									<Tags tags={post.tags} />
 								)}
 							</footer>
@@ -116,38 +128,81 @@ export default function Post({ post, posts, preview = false }: Props) {
 	);
 }
 
-export const getStaticProps: GetStaticProps<Props> = async ({
-	params,
-	preview = false,
-	previewData,
-}) => {
-	const cms = createCMSProvider(cmsConfig.type);
-	const data = await cms.getPostAndMorePosts(
-		params?.slug as string,
-		preview,
-		previewData
-	);
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+	try {
+		const cms = createCMSProvider(process.env.CMS_TYPE as CMSType);
+		const { post, morePosts } = await cms.getPostAndMorePosts(
+			params?.slug as string,
+			false
+		);
 
-	return {
-		props: {
-			preview,
-			post: data.post,
-			posts: data.posts,
-		},
-		revalidate: 10,
-	};
+		if (!post) {
+			return {
+				notFound: true,
+			};
+		}
+
+		// Transform the post data to match WordPress structure
+		const transformedPost = {
+			...post,
+			featuredImage: { 
+				node: { 
+					sourceUrl: post.featured_image || "" 
+				} 
+			},
+			author: { 
+				node: { 
+					name: post.author || "Anonymous" 
+				} 
+			},
+			tags: { 
+				edges: post.tags?.map((tag: string) => ({ 
+					node: { name: tag } 
+				})) || [] 
+			},
+			categories: { 
+				edges: post.categories?.map((category: string) => ({ 
+					node: { name: category } 
+				})) || [] 
+			}
+		};
+
+		// Transform morePosts to match WordPress structure
+		const transformedPosts = {
+			edges: morePosts.map((p: NeonPost) => ({
+				node: {
+					title: p.title,
+					featuredImage: { node: { sourceUrl: p.featured_image || "" } },
+					date: p.date,
+					author: { node: { name: p.author || "Anonymous" } },
+					slug: p.slug,
+					excerpt: p.excerpt,
+				}
+			}))
+		};
+
+		return {
+			props: {
+				post: transformedPost,
+				posts: transformedPosts,
+				preview: false
+			},
+			revalidate: 60,
+		};
+	} catch (error) {
+		console.error(`Error fetching post ${params?.slug}:`, error);
+		return {
+			notFound: true,
+		};
+	}
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-	const cms = createCMSProvider(cmsConfig.type);
+	const cms = createCMSProvider(process.env.CMS_TYPE as CMSType);
 	const allPosts = await cms.getAllPostsWithSlug();
 
 	return {
-		paths:
-			allPosts.edges.map(
-				({ node }: { node: { slug: string } }) =>
-					`/blog/posts/${node.slug}`
-			) || [],
-		fallback: true,
+		paths: allPosts.map((post: { slug: string }) => `/blog/posts/${post.slug}`),
+		fallback: 'blocking',
 	};
 };

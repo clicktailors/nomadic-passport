@@ -39,18 +39,20 @@ export default function Home({
 			<Head>
 				<title>{`${SITE_NAME}`}</title>
 			</Head>
-			<main>
+			<main className="overflow-hidden">
 				{heroContent && Object.keys(heroContent).length > 0 && (
-					<Marketing.Hero content={heroContent} />
+					<Marketing.Hero content={heroContent} spacing="xl" />
 				)}
 				{gridContent && Object.keys(gridContent).length > 0 && (
-					<Marketing.Splits.BlurbTwoByTwoGrid content={gridContent} />
+					<Marketing.Splits.BlurbTwoByTwoGrid content={gridContent} spacing="lg" />
 				)}
 				{splitContent && Object.keys(splitContent).length > 0 && (
-					<Marketing.Splits.MarketingSplit content={splitContent} />
+					<Marketing.Splits.MarketingSplit content={splitContent} spacing="lg" />
 				)}
-				{recentPosts.length > 0 && <BlogCarousel posts={recentPosts} />}
-				<Marketing.Newsletter />
+				{recentPosts.length > 0 && (
+					<BlogCarousel posts={recentPosts} spacing="md" />
+				)}
+				<Marketing.Newsletter spacing="lg" />
 			</main>
 		</Layout>
 	);

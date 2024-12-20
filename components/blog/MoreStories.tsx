@@ -2,13 +2,26 @@ import PostPreview from "./PostPreview";
 import Container from "../ui/Container";
 import Section from "../ui/Section";
 
-export default function MoreStories({ posts }: { posts: any[] }) {
+type SpacingType = "none" | "sm" | "md" | "lg" | "xl";
+
+export default function MoreStories({ posts, spacing = "lg" }: { posts: any[], spacing?: SpacingType }) {
 	return (
-		<Section>
+		<Section spacing={spacing}>
 			<Container>
-				<h2 className="mb-8 text-6xl md:text-7xl font-bold tracking-tighter leading-tight">
-					More Stories
-				</h2>
+				{/* Section header */}
+				<div className="mx-auto max-w-2xl lg:text-center mb-12">
+					<h2 className="font-semibold leading-7 text-primary">
+						Continue Reading
+					</h2>
+					<p className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+						More Stories
+					</p>
+					<p className="mt-4 text-lg leading-8 text-base-content/70">
+						Discover more of our articles and insights.
+					</p>
+				</div>
+
+				{/* Posts grid */}
 				<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 md:gap-x-16 lg:gap-x-32 gap-y-20 md:gap-y-32 mb-32">
 					{posts.map(({ node }) => (
 						<PostPreview

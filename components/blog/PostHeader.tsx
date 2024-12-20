@@ -21,10 +21,9 @@ export default function PostHeader({
 	return (
 		<Section>
 			<Container>
-				<div className="max-w-4xl mx-auto flex flex-col items-center justify-center gap-12 grid-cols-12">
+				<div className="max-w-4xl mx-auto flex flex-col items-start justify-center gap-12 grid-cols-12">
 					<div className="md:mb-12">
 						{" "}
-						{/* Changed from col-span-8 to col-span-9 */}
 						<PostTitle>{title}</PostTitle>
 						<Avatar author={author} />
 						<div className="mb-6 text-sm">
@@ -34,7 +33,6 @@ export default function PostHeader({
 					</div>
 					<div className="mb-8 md:mb-16 sm:mx-0 align-middle mx-auto">
 						{" "}
-						{/* Changed from max-w-xl to max-w-md and col-span-4 to col-span-3 */}
 						{coverImage && (
 							<CoverImage title={title} coverImage={coverImage} />
 						)}

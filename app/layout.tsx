@@ -36,12 +36,12 @@ export default function RootLayout({
 				<Suspense fallback={null}>
 					<ClientProviders>
 						<Integrations />
-						<div className="min-h-screen flex flex-col justify-between">
+						<div className="flex min-h-screen flex-col">
 							<DrawerNavbar
-								pageContent={<main>{children}</main>}
+								pageContent={<main className="flex-grow">{children}</main>}
 							/>
+							<Footer />
 						</div>
-						<Footer />
 					</ClientProviders>
 				</Suspense>
 			</body>

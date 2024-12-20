@@ -23,19 +23,51 @@ export class NeonCms implements CMSProvider {
 	}
 
 	async getAllPostsForHome(preview: boolean): Promise<any[]> {
-		return await this.sql`
-			SELECT * FROM posts
+		const posts = await this.sql`
+			SELECT 
+				id,
+				title,
+				slug,
+				excerpt,
+				content,
+				featured_image,
+				author,
+				date::text as date,
+				status
+			FROM posts
 			ORDER BY date DESC
 		`;
+		return posts;
 	}
 
 	async getPostAndMorePosts(slug: string, preview: boolean): Promise<{ post: any; morePosts: any[] }> {
 		const [post] = await this.sql`
-			SELECT * FROM posts WHERE slug = ${slug}
+			SELECT 
+				id,
+				title,
+				slug,
+				excerpt,
+				content,
+				featured_image,
+				author,
+				date::text as date,
+				status
+			FROM posts 
+			WHERE slug = ${slug}
 		`;
 		
 		const morePosts = await this.sql`
-			SELECT * FROM posts 
+			SELECT 
+				id,
+				title,
+				slug,
+				excerpt,
+				content,
+				featured_image,
+				author,
+				date::text as date,
+				status
+			FROM posts 
 			WHERE slug != ${slug}
 			ORDER BY date DESC 
 			LIMIT 2

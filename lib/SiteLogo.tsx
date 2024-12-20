@@ -1,19 +1,11 @@
-import Logo from "../components/ui/Icons/Logo";
+import { SiteLogo as Logo } from "../components/images/tsx/icons";
 
 interface SiteLogoProps {
-	className?: string;
-	size?: "size-6" | "size-8" | "size-10" | "size-12";
+	size?: string;
 	inverted?: boolean;
+	className?: string;
 }
 
-export const SiteLogo = ({
-	className = "",
-	size = "size-6",
-	inverted = false,
-}: SiteLogoProps) => {
-	return (
-		<div className={`flex items-center ${className}`}>
-			<Logo size={size} />
-		</div>
-	);
+export const SiteLogo = ({ size = "size-8", inverted = false, className = "" }: SiteLogoProps) => {
+	return <Logo size={size} className={className} />;
 };
